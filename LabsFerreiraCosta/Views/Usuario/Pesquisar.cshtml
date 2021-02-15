@@ -1,0 +1,118 @@
+﻿@model  PagedList.IPagedList<LabsFerreiraCosta.Models.UsuarioMdl>
+@using PagedList.Mvc
+
+<div class="text-center" style="margin-top:15px;">
+    <div class="col-lg-6">
+        @using (Html.BeginForm("Pesquisar", "Usuario", FormMethod.Get)) {
+            <p>
+                Nome @Html.TextBox("Nome")
+                <input type="submit" value="Search" />
+            </p>
+        }
+    </div>
+    <div class="col-lg-6">
+        @using (Html.BeginForm()) {
+            <p>
+                Cpf @Html.TextBox("Cpf")
+                <input type="submit" value="Search" />
+            </p>
+        }
+    </div>
+</div>
+<div class="text-center">
+    <div class="col-lg-6">
+        @using (Html.BeginForm()) {
+            <p>
+                Login @Html.TextBox("Html")
+                <input type="submit" value="Search" />
+            </p>
+        }
+    </div>
+    <div class="col-lg-6">
+        @using (Html.BeginForm()) {
+            <p>
+                Status @Html.TextBox("Status")
+                <input type="submit" value="Search" />
+            </p>
+        }
+    </div>
+</div>
+<table class="table ">
+    <tr>
+        <th input type="checkbox" id="checkAll">Selecione</th>
+        <th>
+            @Html.DisplayName("Nome")
+        </th>
+        <th>
+            @Html.DisplayName("Login")
+        </th>
+        <th>
+            @Html.DisplayName("Email")
+        </th>
+        <th>
+            @Html.DisplayName("Fone")
+        </th>
+        <th>
+            @Html.DisplayName("Cpf")
+        </th>
+        <th>
+            @Html.DisplayName("DataNascimento")
+        </th>
+        <th>
+            @Html.DisplayName("Status")
+        </th>
+
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model) {
+
+        <tr>
+            <td>
+                <input type="checkbox" class="checkBox"
+                       value="@item.Id" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Login)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cpf)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataNascimento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+
+            <td>
+                @Html.ActionLink("Editar", "Alterar", new { id = item.Id }) |
+                @Html.ActionLink("Remover", "Excluir", new { id = item.Id }, new { onclick = "return confirm('Tem certeza que deseja Excluir?');" })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<br />
+<input type="button" id="Delete"
+       value="Remover os selecionados" />
+<br />
+<br />
+
+@* tratando a páginação da PagedList *@
+Página @Model.PageNumber de @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Pesquisar", new { pagina = page }))
+
